@@ -6,21 +6,22 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Traits\IdTrait;
 
 /**
+ * @ApiResource()
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
 class User implements UserInterface
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use IdTrait;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Email(message="L'adresse email '{{ value }}' n'est pas valide.")
+     * @Assert\NotBlank(message="L'adresse email est obligatoire.")
      */
     private $email;
 
@@ -32,23 +33,22 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="Le mot de passe est obligatoire.")
+     * @Assert\Length(min=4, minMessage="Le mot de passe doit avoir au minimum 4 caractères")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le prénom est obligatoire.")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le nom est obligatoire.")
      */
     private $lastName;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $avatar;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -67,6 +67,8 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\DateTime(message="La date de création doit être au format Y-m-d H:i:s.")
+     * @Assert\NotBlank(message="La date de création est obligatoire.")
      */
     private $createdAt;
 
@@ -83,11 +85,6 @@ class User implements UserInterface
     public function __construct()
     {
         $this->ads = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getEmail(): ?string
@@ -183,18 +180,6 @@ class User implements UserInterface
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    public function getAvatar(): ?string
-    {
-        return $this->avatar;
-    }
-
-    public function setAvatar(string $avatar): self
-    {
-        $this->avatar = $avatar;
 
         return $this;
     }

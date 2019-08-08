@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use App\Traits\IdTrait;
 
 /**
  * @ApiResource()
@@ -11,12 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Booking
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use IdTrait;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Ad", cascade={"persist", "remove"})
@@ -42,11 +38,6 @@ class Booking
      * @ORM\Column(type="string", length=255)
      */
     private $status;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getAd(): ?Ad
     {

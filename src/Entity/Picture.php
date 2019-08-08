@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use App\Traits\IdTrait;
 
 /**
  * @ApiResource()
@@ -11,12 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Picture
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use IdTrait;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -32,11 +28,6 @@ class Picture
      * @ORM\OneToOne(targetEntity="App\Entity\User", cascade={"persist", "remove"})
      */
     private $user;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getLabel(): ?string
     {

@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Traits\IdTrait;
 
 /**
  * @ApiResource()
@@ -11,30 +13,33 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Ad
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+    use IdTrait;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\Date(message="La date de départ doit être au format 'Y-m-d'")
+     * @Assert\NotBlank(message="La date de départ est obligatoire.")
      */
-    private $depatureDate;
+    private $departureDate;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\Date(message="La date d'arrivée doit être au format 'Y-m-d'")
+     * @Assert\NotBlank(message="La date d'arrivée est obligatoire.")
      */
     private $arrivalDate;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="time")
+     * @Assert\Time(message="L'heure de départ doit être au format 'H:i:s'")
+     * @Assert\NotBlank(message="L'heure de départ est obligatoire.")
      */
-    private $depatureHour;
+    private $departureHour;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="time")
+     * @Assert\Time(message="L'heure d'arrivée foit être au format 'H:i:s'")
+     * @Assert\NotBlank(message="L'heure d'arrivée est obligatoire.")
      */
     private $arrivalHour;
 
@@ -45,16 +50,24 @@ class Ad
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\DateTime(message="La date de création doit être au format 'Y-m-d H:i:s'")
+     * @Assert\NotBlank(message="La date de création est obligatoire.")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\DateTime(message="La date de modification doit être au format 'Y-m-d H:i:s'")
      */
     private $updatedAt;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Type(
+     *  type="integer",
+     *  message="Le nombre de places doit être un nombre."
+     * )
+     * @Assert\NotBlank(message="Le nombre de places est obligatoire.")
      */
     private $nbrPlaces;
 
@@ -63,19 +76,26 @@ class Ad
      */
     private $user;
 
-    public function getId(): ?int
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="La ville de départ est obligatoire.")
+     */
+    private $departure;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="La ville d'arrivée est obligatoire.")
+     */
+    private $arrival;
+
+    public function getDepartureDate(): ?\DateTimeInterface
     {
-        return $this->id;
+        return $this->departureDate;
     }
 
-    public function getDepatureDate(): ?\DateTimeInterface
+    public function setDepartureDate(\DateTimeInterface $departureDate): self
     {
-        return $this->depatureDate;
-    }
-
-    public function setDepatureDate(\DateTimeInterface $depatureDate): self
-    {
-        $this->depatureDate = $depatureDate;
+        $this->departureDate = $departureDate;
 
         return $this;
     }
@@ -88,30 +108,6 @@ class Ad
     public function setArrivalDate(\DateTimeInterface $arrivalDate): self
     {
         $this->arrivalDate = $arrivalDate;
-
-        return $this;
-    }
-
-    public function getDepatureHour(): ?\DateTimeInterface
-    {
-        return $this->depatureHour;
-    }
-
-    public function setDepatureHour(\DateTimeInterface $depatureHour): self
-    {
-        $this->depatureHour = $depatureHour;
-
-        return $this;
-    }
-
-    public function getArrivalHour(): ?\DateTimeInterface
-    {
-        return $this->arrivalHour;
-    }
-
-    public function setArrivalHour(\DateTimeInterface $arrivalHour): self
-    {
-        $this->arrivalHour = $arrivalHour;
 
         return $this;
     }
@@ -172,6 +168,54 @@ class Ad
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getDepartureHour(): ?\DateTimeInterface
+    {
+        return $this->departureHour;
+    }
+
+    public function setDepartureHour(\DateTimeInterface $departureHour): self
+    {
+        $this->departureHour = $departureHour;
+
+        return $this;
+    }
+
+    public function getArrivalHour(): ?\DateTimeInterface
+    {
+        return $this->arrivalHour;
+    }
+
+    public function setArrivalHour(\DateTimeInterface $arrivalHour): self
+    {
+        $this->arrivalHour = $arrivalHour;
+
+        return $this;
+    }
+
+    public function getDeparture(): ?string
+    {
+        return $this->departure;
+    }
+
+    public function setDeparture(string $departure): self
+    {
+        $this->departure = $departure;
+
+        return $this;
+    }
+
+    public function getArrival(): ?string
+    {
+        return $this->arrival;
+    }
+
+    public function setArrival(string $arrival): self
+    {
+        $this->arrival = $arrival;
 
         return $this;
     }

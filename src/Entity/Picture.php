@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\IdTrait;
 
@@ -16,11 +17,13 @@ class Picture
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="L'image est obligatoire.")
      */
     private $label;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Car", inversedBy="pictures")
+     * 
      */
     private $car;
 

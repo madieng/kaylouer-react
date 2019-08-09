@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\IdTrait;
 
@@ -18,11 +19,13 @@ class Car
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="La marque de la voiture est obligatoire.")
      */
     private $marque;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le modèle de la voiture est obligatoire.")
      */
     private $modele;
 
@@ -33,6 +36,11 @@ class Car
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Type(
+     *  type="integer",
+     *  message="Le nombre de places doit être un nombre."
+     * )
+     * @Assert\NotBlank(message="Le nombre de places est obligatoire.")
      */
     private $nbrPlaces;
 
@@ -40,6 +48,11 @@ class Car
      * @ORM\OneToMany(targetEntity="App\Entity\Picture", mappedBy="car")
      */
     private $pictures;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="cars")
+     */
+    private $user;
 
     public function __construct()
     {
@@ -121,6 +134,18 @@ class Car
                 $picture->setCar(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

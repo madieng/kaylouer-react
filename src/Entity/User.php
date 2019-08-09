@@ -82,9 +82,15 @@ class User implements UserInterface
      */
     private $ads;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Car", mappedBy="user")
+     */
+    private $cars;
+
     public function __construct()
     {
         $this->ads = new ArrayCollection();
+        $this->cars = new ArrayCollection();
     }
 
     public function getEmail(): ?string
@@ -116,7 +122,7 @@ class User implements UserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        // $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
@@ -269,6 +275,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($ad->getUser() === $this) {
                 $ad->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Car[]
+     */
+    public function getCars(): Collection
+    {
+        return $this->cars;
+    }
+
+    public function addCar(Car $car): self
+    {
+        if (!$this->cars->contains($car)) {
+            $this->cars[] = $car;
+            $car->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCar(Car $car): self
+    {
+        if ($this->cars->contains($car)) {
+            $this->cars->removeElement($car);
+            // set the owning side to null (unless already changed)
+            if ($car->getUser() === $this) {
+                $car->setUser(null);
             }
         }
 

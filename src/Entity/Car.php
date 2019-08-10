@@ -2,12 +2,13 @@
 
 namespace App\Entity;
 
+use App\Traits\IdTrait;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\ORM\Mapping as ORM;
-use App\Traits\IdTrait;
 
 /**
  * @ApiResource()
@@ -20,17 +21,20 @@ class Car
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="La marque de la voiture est obligatoire.")
+     * @Groups({"ad_read"})
      */
     private $marque;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Le modèle de la voiture est obligatoire.")
+     * @Groups({"ad_read"})
      */
     private $modele;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"ad_read"})
      */
     private $year;
 
@@ -41,6 +45,7 @@ class Car
      *  message="Le nombre de places doit être un nombre."
      * )
      * @Assert\NotBlank(message="Le nombre de places est obligatoire.")
+     * @Groups({"ad_read"})
      */
     private $nbrPlaces;
 

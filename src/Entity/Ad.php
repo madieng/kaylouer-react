@@ -2,13 +2,16 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use App\Traits\IdTrait;
+use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *  normalizationContext={"groups"={"ad_read"}}
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\AdRepository")
  */
 class Ad
@@ -19,6 +22,7 @@ class Ad
      * @ORM\Column(type="datetime")
      * @Assert\Date(message="La date de départ doit être au format 'Y-m-d'")
      * @Assert\NotBlank(message="La date de départ est obligatoire.")
+     * @Groups({"ad_read"})
      */
     private $departureDate;
 
@@ -26,6 +30,7 @@ class Ad
      * @ORM\Column(type="datetime")
      * @Assert\Date(message="La date d'arrivée doit être au format 'Y-m-d'")
      * @Assert\NotBlank(message="La date d'arrivée est obligatoire.")
+     * @Groups({"ad_read"})
      */
     private $arrivalDate;
 
@@ -33,6 +38,7 @@ class Ad
      * @ORM\Column(type="time")
      * @Assert\Time(message="L'heure de départ doit être au format 'H:i:s'")
      * @Assert\NotBlank(message="L'heure de départ est obligatoire.")
+     * @Groups({"ad_read"})
      */
     private $departureHour;
 
@@ -40,11 +46,13 @@ class Ad
      * @ORM\Column(type="time")
      * @Assert\Time(message="L'heure d'arrivée foit être au format 'H:i:s'")
      * @Assert\NotBlank(message="L'heure d'arrivée est obligatoire.")
+     * @Groups({"ad_read"})
      */
     private $arrivalHour;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"ad_read"})
      */
     private $description;
 
@@ -52,12 +60,14 @@ class Ad
      * @ORM\Column(type="datetime")
      * @Assert\DateTime(message="La date de création doit être au format 'Y-m-d H:i:s'")
      * @Assert\NotBlank(message="La date de création est obligatoire.")
+     * @Groups({"ad_read"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @Assert\DateTime(message="La date de modification doit être au format 'Y-m-d H:i:s'")
+     * @Groups({"ad_read"})
      */
     private $updatedAt;
 
@@ -68,23 +78,27 @@ class Ad
      *  message="Le nombre de places doit être un nombre."
      * )
      * @Assert\NotBlank(message="Le nombre de places est obligatoire.")
+     * @Groups({"ad_read"})
      */
     private $nbrPlaces;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="ads")
+     * @Groups({"ad_read"})
      */
     private $user;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="La ville de départ est obligatoire.")
+     * @Groups({"ad_read"})
      */
     private $departure;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="La ville d'arrivée est obligatoire.")
+     * @Groups({"ad_read"})
      */
     private $arrival;
 

@@ -91,6 +91,17 @@ class User implements UserInterface
      */
     private $cars;
 
+    /**
+     * @Groups({"ad_read"})
+     */
+    private $fullName;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"ad_read"})
+     */
+    private $avatar;
+
     public function __construct()
     {
         $this->ads = new ArrayCollection();
@@ -192,6 +203,11 @@ class User implements UserInterface
         $this->lastName = $lastName;
 
         return $this;
+    }
+
+    public function getFullName()
+    {
+        return $this->firstName . ' ' . $this->lastName;
     }
 
     public function getCity(): ?string
@@ -312,6 +328,18 @@ class User implements UserInterface
                 $car->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }

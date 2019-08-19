@@ -25,6 +25,8 @@ class UserFixtures extends Fixture
         $faker = Faker\Factory::create('fr_FR');
         // Client
         for ($i = 0; $i < 500; $i++) {
+            $genres = ['men', 'women'];
+            $avatar = "https://randomuser.me/api/portraits/" . $genres[mt_rand(0, 1)] . "/" . mt_rand(0, 99) . ".jpg";
             $user = new User();
             $user
                 ->setFirstName($faker->firstName)
@@ -33,6 +35,7 @@ class UserFixtures extends Fixture
                 ->setPhone($faker->e164PhoneNumber)
                 ->setPassword($this->encoder->encodePassword($user, 'password'))
                 ->setCreatedAt($faker->dateTimeBetween('-6 months', 'now'))
+                ->setAvatar($avatar)
                 ->setRoles(['ROLE_CUSTOMER']);
             $manager->persist($user);
             if ($i % 200) {
@@ -43,6 +46,8 @@ class UserFixtures extends Fixture
         }
         // Chauffeur
         for ($i = 0; $i < 100; $i++) {
+            $genres = ['men', 'women'];
+            $avatar = "https://randomuser.me/api/portraits/" . $genres[mt_rand(0, 1)] . "/" . mt_rand(0, 99) . ".jpg";
             $user = new User();
             $user
                 ->setFirstName($faker->firstName)
@@ -51,6 +56,7 @@ class UserFixtures extends Fixture
                 ->setPhone($faker->e164PhoneNumber)
                 ->setPassword($this->encoder->encodePassword($user, 'password'))
                 ->setCreatedAt($faker->dateTimeBetween('-6 months', 'now'))
+                ->setAvatar($avatar)
                 ->setRoles(['ROLE_DRIVER']);
             $manager->persist($user);
             if ($i % 200) {

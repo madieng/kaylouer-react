@@ -29,28 +29,6 @@ class PictureFixtures extends Fixture implements DependentFixtureInterface
             $manager->flush();
         }
 
-        // Picture Customers
-        for ($i = 0; $i < 500; $i++) {
-            $picture = new Picture();
-            $picture
-                ->setLabel("https://randomuser.me/api/portraits/men/" . mt_rand(0, 99) . ".jpg")
-                ->setUser(
-                    $this->getReference(sprintf(UserFixtures::CUSTOMERREFERENCE, $i))
-                );
-            $manager->persist($picture);
-        }
-        $manager->flush();
-        // Picture Driver
-        for ($i = 0; $i < 100; $i++) {
-            $picture = new Picture();
-            $picture
-                ->setLabel("https://randomuser.me/api/portraits/men/" . mt_rand(0, 99) . ".jpg")
-                ->setUser(
-                    $this->getReference(sprintf(UserFixtures::DRIVERREFERENCE, $i))
-                );
-            $manager->persist($picture);
-        }
-
         $manager->flush();
     }
 

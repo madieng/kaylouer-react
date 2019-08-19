@@ -19,6 +19,7 @@ class Picture
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="L'image est obligatoire.")
+     * @Groups({"ad_read"})
      */
     private $label;
 
@@ -27,11 +28,6 @@ class Picture
      * 
      */
     private $car;
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", cascade={"persist", "remove"})
-     */
-    private $user;
 
     public function getLabel(): ?string
     {
@@ -53,18 +49,6 @@ class Picture
     public function setCar(?Car $car): self
     {
         $this->car = $car;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
 
         return $this;
     }

@@ -12,14 +12,24 @@ const Ad = props => {
     departureHour
   } = props.ad;
   const { fullName, avatar } = user;
-
+  let places = [];
+  for (let i = 0; i < nbrPlaces; i++) {
+    places = [...places, i];
+  }
+  const min = 1;
+  const max = 3;
+  const random = Math.floor(Math.random() * (+max - +min) + +min);
   return (
     <div className="container">
-      <div className="jumbotron px-0 py-3">
+      <div className="jumbotron_ px-0 py-3">
         <div className="row">
           <div className="col-md-4 col-xs-12 col-sm-6 col-lg-4">
-            <img src={avatar} alt={user.fullName} className="img w-50" />
-            <div className="w-100 ">{user.fullName}</div>
+            <img
+              src={avatar}
+              alt={fullName}
+              className={`img w-50 img-${random}`}
+            />
+            <div className="w-100 ">{fullName}</div>
           </div>
           <div className="col-md-8 col-xs-12 col-sm-6 col-lg-8">
             <div className="container">
@@ -30,8 +40,14 @@ const Ad = props => {
                 <div className="col-5 text-left">
                   Arrivée: <b>{arrival}</b>
                 </div>
-                <div className="col-2 text-right text-primary">
-                  {nbrPlaces} places
+                <div
+                  className="col-2 text-right text-warning places"
+                  title={`${nbrPlaces} place(s) encore disponible(s).`}
+                >
+                  {/* {nbrPlaces} places */}
+                  {places.map((p, i) => (
+                    <i className="fas fa-male pl-1" key={i} />
+                  ))}
                 </div>
               </div>
             </div>

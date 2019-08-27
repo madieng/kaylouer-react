@@ -40,9 +40,30 @@ html {
     height: 150px;
     border-radius: 50%;
     margin-bottom: 20px;
-    border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.img-1 {
+    border: 1px solid #FF7518;
+}
+
+.img-2 {
+    border: 1px solid #2780E3;
+}
+
+.img-3 {
+    border: 1px solid #3FB618;
 }
 
 .description {
     height: 100px;
+}
+
+.jumbotron_ {
+    margin-bottom: 1rem;
+    border: 1px solid #ced4da;
+    /* border-radius: 20px; */
+}
+
+.places {
+    font-size: 20px;
 }
